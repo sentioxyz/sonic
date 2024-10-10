@@ -130,7 +130,7 @@ require (
 	rsc.io/tmplfunc v0.0.3 // indirect
 )
 
-replace github.com/ethereum/go-ethereum => github.com/0xsoniclabs/go-ethereum v0.0.0-20250130165002-2b3ee95747f9
+replace github.com/ethereum/go-ethereum => github.com/sentioxyz/go-ethereum-sonic v0.0.0-20250612222951-58d4ba47008f
 
 replace github.com/Fantom-foundation/lachesis-base => github.com/Fantom-foundation/lachesis-base-sonic v0.0.0-20241018103023-632a59c242f5
 
