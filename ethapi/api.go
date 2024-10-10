@@ -2621,3 +2621,104 @@ func toHexSlice(b []immutable.Bytes) []string {
 	}
 	return r
 }
+
+type Bundle struct {
+	Transactions  []*TransactionArgs `json:"transactions"`
+	BlockOverride *BlockOverrides    `json:"blockOverride"`
+}
+
+type StateContext struct {
+	BlockNumber      *rpc.BlockNumberOrHash `json:"blockNumber"`
+	TransactionIndex int                    `json:"transactionIndex"`
+}
+
+type FailedTrace struct {
+	Failed string `json:"failed,omitempty"`
+}
+
+func (api *PublicDebugAPI) TraceCallMany(ctx context.Context, bundles []*Bundle, simulateContext *StateContext, config *TraceCallConfig) (interface{}, error) {
+	if len(bundles) == 0 {
+		return nil, errors.New("empty bundles")
+	}
+	var result []interface{}
+	for _, bundle := range bundles {
+		r, err := api.traceBundle(ctx, bundle, simulateContext, config)
+		if err != nil {
+			if r != nil {
+				// return partial results
+				r = append(r, &FailedTrace{Failed: err.Error()})
+				result = append(result, r)
+				return result, nil
+			}
+			return nil, err
+		}
+		result = append(result, r)
+	}
+	return result, nil
+}
+
+func (api *PublicDebugAPI) traceBundle(ctx context.Context, bundle *Bundle, simulateContext *StateContext, config *TraceCallConfig) ([]interface{}, error) {
+	var result []interface{}
+
+	blockNrOrHash := simulateContext.BlockNumber
+	// If pending block, return error
+	if num, ok := blockNrOrHash.Number(); ok && num == rpc.PendingBlockNumber {
+		return nil, errors.New("tracing on top of pending is not supported")
+	}
+
+	// Get block
+	block, err := getEvmBlockFromNumberOrHash(ctx, *blockNrOrHash, api.b)
+	if err != nil {
+		return nil, err
+	}
+
+	var txIndex uint
+	if config != nil && config.TxIndex != nil {
+		txIndex = uint(*config.TxIndex)
+	}
+
+	// Get state
+	_, statedb, err := stateAtTransaction(ctx, block, int(txIndex), api.b)
+	if err != nil {
+		return nil, err
+	}
+	defer statedb.Release()
+
+	// Apply state overrides
+	if config != nil {
+		if err := config.StateOverrides.Apply(statedb); err != nil {
+			return nil, err
+		}
+	}
+
+	// Execute the trace
+	for idx, args := range bundle.Transactions {
+		tx, msg, err := getTxAndMessage(args, block, api.b)
+		if err != nil {
+			return nil, err
+		}
+
+		var traceConfig *tracers.TraceConfig
+		if config != nil {
+			traceConfig = &config.TraceConfig
+		}
+
+		txctx := &tracers.Context{
+			BlockHash: block.Hash,
+			TxIndex:   simulateContext.TransactionIndex + idx,
+		}
+
+		blockCtx := getBlockContext(ctx, api.b, &block.EvmHeader)
+		if bundle.BlockOverride != nil {
+			bundle.BlockOverride.apply(&blockCtx)
+		}
+
+		r, err := api.traceTx(ctx, tx, msg, txctx, block.Header(), statedb, traceConfig, &blockCtx)
+		if err != nil {
+			return result, err
+		}
+		result = append(result, r)
+		statedb.Finalise(true)
+	}
+	return result, nil
+}
