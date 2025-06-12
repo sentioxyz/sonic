@@ -2633,7 +2633,7 @@ func (api *PublicDebugAPI) traceBundle(ctx context.Context, bundle *Bundle, simu
 			return result, err
 		}
 		result = append(result, r)
-		statedb.Finalise(false)
+		statedb.Finalise()
 	}
 	return result, nil
 }
