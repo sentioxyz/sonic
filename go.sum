@@ -1,7 +1,5 @@
 github.com/0xsoniclabs/carmen/go v0.0.0-20260512102324-2d892af38ce4 h1:HF2gKas3kyQx28LDcN4jn1yafxa4+gsy+UXUEnli2Kc=
 github.com/0xsoniclabs/carmen/go v0.0.0-20260512102324-2d892af38ce4/go.mod h1:ebS6LBL8TM3tKnRf9AHVb4FYQbb+edg3f7Gw/HnAffA=
-github.com/0xsoniclabs/go-ethereum v0.0.0-20260507120815-e9dfccd41dbe h1:JPiyJPZ1oBzRwsRW0BER76wChPg7rOxKwk1W5YUkKlE=
-github.com/0xsoniclabs/go-ethereum v0.0.0-20260507120815-e9dfccd41dbe/go.mod h1:F60oMGNtPsr0hhwnGzwZv4ooj0AfnXJ1iGMGXylfjrg=
 github.com/0xsoniclabs/tosca v0.0.0-20260429071638-3f4119284c42 h1:oJMc/vekaRHmIwiRYHzfn8pofD4AwR8awgJe8DeUaDs=
 github.com/0xsoniclabs/tosca v0.0.0-20260429071638-3f4119284c42/go.mod h1:iXtx7i9R25Oc5SD/xGI7aamdnF0nCteBpulZGIOIYJI=
 github.com/0xsoniclabs/tracy v0.0.0-20251027125423-00a5ab7968fb h1:mb6rPN+DpA/N2QWrQrLQEG2uzrYgy061PPauifstXNM=
@@ -267,6 +265,8 @@ github.com/rs/cors v1.11.1 h1:eU3gRzXLRK57F5rKMGMZURNdIG4EoAmX8k94r9wXWHA=
 github.com/rs/cors v1.11.1/go.mod h1:XyqrcTp5zjWr1wsJ8PIRZssZ8b/WMcMf71DJnit4EMU=
 github.com/russross/blackfriday/v2 v2.1.0 h1:JIOH55/0cWyOuilr9/qlrm0BSXldqnqwMsf35Ld67mk=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
+github.com/sentioxyz/go-ethereum-sonic v0.0.0-20260703074630-cc43d26e400a h1:11XyWU/G0JAgvEP1aedcExKziYqavFIHxNAd9OhP8RI=
+github.com/sentioxyz/go-ethereum-sonic v0.0.0-20260703074630-cc43d26e400a/go.mod h1:F60oMGNtPsr0hhwnGzwZv4ooj0AfnXJ1iGMGXylfjrg=
 github.com/shirou/gopsutil v3.21.11+incompatible h1:+1+c1VGhc88SSonWP6foOcLhvnKlUeu/erjjvaPEYiI=
 github.com/shirou/gopsutil v3.21.11+incompatible/go.mod h1:5b4v6he4MtMOwMlS0TUMTu2PcXUg8+E1lC7eC3UO/RA=
 github.com/spkg/bom v0.0.0-20160624110644-59b7046e48ad/go.mod h1:qLr4V1qq6nMqFKkMo8ZTx3f+BZEkzsRUY10Xsm2mwU0=
